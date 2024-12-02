@@ -40,7 +40,6 @@ GolfCoachInsight
 └── API
     └── Controllers
 ```
-![Dependency flow](img/CleanA.png)
 
 - **Validering og sikkerhed:** Backend sikrer dataintegritet med **FluentValidation** og beskytter endpoints med **JWT-tokens**.
 
