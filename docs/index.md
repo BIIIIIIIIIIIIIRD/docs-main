@@ -151,8 +151,11 @@ Denne oplevelse mindede mig om vigtigheden af at tilpasse kommunikationen til m�
 
 #### **Opnåelse af læringsmål**
 Jeg har opnået betydelige fremskridt i forhold til mine læringsmål, især inden for backend-udvikling og systemarkitektur:
+
 - **Clean Architecture** gav mig værdifuld erfaring i at skabe en fleksibel og vedligeholdelsesvenlig kodebase. Jeg lærte at opdele applikationen i lag, hvilket gjorde det lettere at implementere nye funktioner og rette fejl.
+
 - **CQRS og Repository Pattern** hjalp mig med at skabe en skalerbar og modular backend. Jeg har lært at strukturere koden med tydelig adskillelse af læse- og skriveoperationer ved hjælp af MediatR, hvilket har gjort min kodebase mere testbar og vedligeholdelsesvenlig.
+
 - **Autorisering og sikkerhed** via JWT-tokens gav mig dybere indsigt i moderne sikkerhedsmekanismer. Jeg forstod, hvordan man implementerer sikker kommunikation og begrænser adgang til API-endpoints baseret på brugerroller.
 
 #### **Personlig udvikling**
