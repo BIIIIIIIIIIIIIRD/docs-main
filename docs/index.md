@@ -15,16 +15,16 @@ Jeg har valgt at specialisere mig inden for backend-udvikling og Blazor-webappli
 ### **Læringsmål for Backend**
 
 #### **Viden**
-- Forståelse af **Clean Architecture** og dets anvendelse til at opdele ansvar i lag som Domain, Application, Infrastructure og Presentation (API).
-- Kendskab til **CQRS-pattern** for adskillelse af forespørgsler og kommandoer i backend.
-- Forståelse af brugen af **JWT-tokens** til sikker API-kommunikation.
-- Indsigt i **datavalidering** ved hjælp af FluentValidation.
+- Forståelse af Clean Architecture og dets anvendelse til at opdele ansvar i lag som Domain, Application, Infrastructure og Presentation (API).
+- Kendskab til CQRS-pattern for adskillelse af forespørgsler og kommandoer i backend.
+- Forståelse af brugen af JWT-tokens til sikker API-kommunikation.
+- Indsigt i datavalidering ved hjælp af FluentValidation.
 
 #### **Færdigheder**
-- Udvikle en backend baseret på **Clean Architecture** for at sikre skalerbarhed og vedligeholdelse.
-- Implementere **CQRS-pattern** for bedre struktur og modularitet i backend.
-- Bygge sikre API'er ved hjælp af **JWT-tokens** til autentifikation og autorisation.
-- Sikre datakvalitet med **datavalidering** via FluentValidation.
+- Udvikle en backend baseret på Clean Architecture for at sikre skalerbarhed og vedligeholdelse.
+- Implementere CQRS-pattern for bedre struktur og modularitet i backend.
+- Bygge sikre API'er ved hjælp af JWT-tokens til autentifikation og autorisation.
+- Sikre datakvalitet med datavalidering via FluentValidation.
 
 #### **Kompetencer**
 - Kunne selvstændigt designe og implementere en backend-struktur baseret på moderne designmønstre.
@@ -36,14 +36,14 @@ Jeg har valgt at specialisere mig inden for backend-udvikling og Blazor-webappli
 ### **Læringsmål for Blazor**
 
 #### **Viden**
-- Forståelse af komponentbaseret udvikling i **Blazor WebAssembly**.
+- Forståelse af komponentbaseret udvikling i Blazor WebAssembly.
 - Kendskab til integration mellem frontend og backend via API-kald.
-- Indsigt i håndtering af **JWT-tokens** i frontend til autentifikation.
+- Indsigt i håndtering af JWT-tokens i frontend til autentifikation.
 - Forståelse af dynamisk datavisualisering med teknikker som farvekodning og interaktive tabeller.
 
 #### **Færdigheder**
-- Udvikle **interaktive Blazor-komponenter**, der understøtter databinding og events.
-- Implementere **frontend-backend-kommunikation** med sikker håndtering af JWT-tokens.
+- Udvikle interaktive Blazor-komponenter, der understøtter databinding og events.
+- Implementere frontend-backend-kommunikation med sikker håndtering af JWT-tokens.
 - Bygge funktioner som søgning, sortering og dynamisk datavisualisering.
 - Håndtere fejl og undtagelser i API-kommunikation på en brugervenlig måde.
 
@@ -57,7 +57,7 @@ Jeg har valgt at specialisere mig inden for backend-udvikling og Blazor-webappli
 ### **Arkitektur og Teknologi**
 
 #### **Clean Architecture**
-For at sikre en skalerbar og vedligeholdelsesvenlig løsning har jeg anvendt **Clean Architecture** som grundlag for backend-strukturen. Denne tilgang adskiller ansvarsområder i fire lag:
+For at sikre en skalerbar og vedligeholdelsesvenlig løsning har jeg anvendt Clean Architecture som grundlag for backend-strukturen. Denne tilgang adskiller ansvarsområder i fire lag:
 - **Domain**: Indeholder kerneentiteter og deres relationer.
 - **Application**: Håndterer use cases og validering.
 - **Infrastructure**: Sikrer dataadgang og integration.
@@ -72,7 +72,7 @@ Ved at bruge denne struktur kunne jeg nemt tilføje nye funktioner som statistik
 ---
 
 #### **CQRS og MediatR**
-For at optimere systemets struktur og modularitet implementerede jeg **CQRS (Command Query Responsibility Segregation)** sammen med **MediatR**. Dette mønster adskiller læse- og skriveoperationer og gør koden mere overskuelig og testbar.
+For at optimere systemets struktur og modularitet implementerede jeg CQRS (Command Query Responsibility Segregation sammen med MediatR. Dette mønster adskiller læse- og skriveoperationer og gør koden mere overskuelig og testbar.
 
 Eksempel:
 - **Kommando**: `CreateTeeCommandHandler` håndterer oprettelse af en ny tee med validering og datalagring.
@@ -84,9 +84,9 @@ Denne opdeling gav mulighed for at implementere ændringer og tilføjelser uden 
 
 ### **JWT-tokens og sikkerhed**
 
-For at sikre systemets API-endpoints har jeg anvendt **JWT-tokens**. Dette giver en robust sikkerhedsløsning, der beskytter data mod uautoriseret adgang. Ved hjælp af [Authorize]-attributten kunne jeg yderligere begrænse adgang til bestemte endpoints baseret på brugerroller, såsom “Admin” for oprettelse af nye golfklubber.
+For at sikre systemets API-endpoints har jeg anvendt JWT-tokens. Dette giver en robust sikkerhedsløsning, der beskytter data mod uautoriseret adgang. Ved hjælp af [Authorize]-attributten kunne jeg yderligere begrænse adgang til bestemte endpoints baseret på brugerroller, såsom “Admin” for oprettelse af nye golfklubber.
 
-For at gøre test og udvikling mere effektiv integrerede jeg **Swagger**, som understøtter autentifikation med JWT-tokens direkte i dokumentationen. Dette gjorde det muligt for udviklere at teste API’et hurtigt og sikkert.
+For at gøre test og udvikling mere effektiv integrerede jeg Swagger, som understøtter autentifikation med JWT-tokens direkte i dokumentationen. Dette gjorde det muligt for udviklere at teste API’et hurtigt og sikkert.
 
 ---
 

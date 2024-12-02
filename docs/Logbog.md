@@ -8,9 +8,9 @@
 I denne fase designede jeg backend-strukturen til projektet for Odense Golfklub. Fokus var at skabe en robust og skalerbar løsning, der understøtter datamodellering og effektiv API-kommunikation. Arbejdet inkluderede kravindsamling, planlægning og implementering af nøglefunktioner i backend med vægt på modularitet og sikkerhed.
 
 #### **Læringsmål og fokusområder**
-- Implementere principperne bag **Clean Architecture** for at sikre klar ansvarsfordeling mellem applikationens lag.
+- Implementere principperne bag Clean Architecture for at sikre klar ansvarsfordeling mellem applikationens lag.
 - Design og implementering af datamodeller til repræsentation af golfbaner, loops og relaterede data.
-- Udvikling af API’er, der understøtter sikker kommunikation mellem backend og frontend via **JWT-tokens**.
+- Udvikling af API’er, der understøtter sikker kommunikation mellem backend og frontend via JWT-tokens.
 
 #### **Tekniske Implementeringer**
 - **Systemarkitektur:**
@@ -41,7 +41,7 @@ GolfCoachInsight
     └── Controllers
 ```
 
-- **Validering og sikkerhed:** Backend sikrer dataintegritet med **FluentValidation** og beskytter endpoints med **JWT-tokens**.
+- **Validering og sikkerhed:** Backend sikrer dataintegritet med FluentValidation og beskytter endpoints med JWT-tokens.
 
 #### **FluentValidation**
 For at validere data, har hver DTO en tilsvarende `DtoValidator`, hvor jeg ved brug af FluentValidation kan definere brugerdefinerede regler. Eksempelvis validerer følgende klasse, om en golfklubs navn er unikt:
@@ -69,7 +69,7 @@ public class CreateGolfClubDtoValidator : AbstractValidator<CreateGolfClubDto>
 Denne validering sikrer korrekt input og forhindrer duplikationer ved at tjekke, om golfklubbens navn allerede findes i databasen.
 
 #### **JWT-tokenhåndtering**
-Backend bruger **JWT-tokens** til at beskytte API-endpoints og sikre, at kun autoriserede brugere kan få adgang til bestemte ressourcer. For at sikre autentifikationen i API’et, er der konfigureret JWT-validering i `Program.cs`:
+Backend bruger JWT-tokens til at beskytte API-endpoints og sikre, at kun autoriserede brugere kan få adgang til bestemte ressourcer. For at sikre autentifikationen i API’et, er der konfigureret JWT-validering i `Program.cs`:
 ```csharp
 services.AddSwaggerGen(c =>
 {
@@ -103,10 +103,10 @@ services.AddSwaggerGen(c =>
     });
 });
 ```
-Her tilføjes en **Swagger**-integration, der gør det muligt for udviklere at autentificere sig selv via **JWT-tokens** i API-dokumentationen, hvilket sikrer, at kun autoriserede brugere kan få adgang til beskyttede endpoints.
+Her tilføjes en Swagger-integration, der gør det muligt for udviklere at autentificere sig selv via JWT-tokens i API-dokumentationen, hvilket sikrer, at kun autoriserede brugere kan få adgang til beskyttede endpoints.
 
 #### **Beskyttelse af API-endpoints med [Authorize]**
-Jeg har beskyttet controlleren **GolfClubController** med [Authorize]-attributten, som sørger for, at kun autoriserede brugere kan tilgå dens endpoints. Dette kan også konfigureres, så kun brugere med specifikke roller (fx "Admin") kan udføre visse handlinger:
+Jeg har beskyttet controlleren GolfClubController med [Authorize]-attributten, som sørger for, at kun autoriserede brugere kan tilgå dens endpoints. Dette kan også konfigureres, så kun brugere med specifikke roller (fx "Admin") kan udføre visse handlinger:
 ```csharp
 namespace GolfCoachInsight.Api.Controllers
 {
@@ -156,18 +156,18 @@ namespace GolfCoachInsight.Api.Controllers
 
 ---
  **Hvorfor det er vigtigt:**
-- **JWT** beskytter applikationen ved kun at give adgang til autoriserede brugere.
-- **Swagger Integration** gør det nemt for udviklere at teste API'et med JWT, hvilket giver en praktisk måde at validere tokens på under udvikling.
-- **[Authorize]** sikrer, at kun godkendte brugere (og specifikt administratorer) kan tilføje nye golfklubber til systemet.
+- JWT beskytter applikationen ved kun at give adgang til autoriserede brugere.
+- Swagger Integration gør det nemt for udviklere at teste API'et med JWT, hvilket giver en praktisk måde at validere tokens på under udvikling.
+- [Authorize] sikrer, at kun godkendte brugere (og specifikt administratorer) kan tilføje nye golfklubber til systemet.
 
 ---
 
 - **Kodeintegrationer:** API’et blev designet til at understøtte forespørgsler og kommandoer med integration til databasen via repositories.
 
 #### **Refleksion over læring**
-Implementeringen af **Clean Architecture** krævede betydeligt mere arbejde i starten, da alle funktioner og data skulle adskilles i klart definerede lag. Denne ekstra indsats gjorde det imidlertid langt nemmere at tilføje nye funktioner og ændringer senere i projektet. Arbejdet lærte mig, hvordan struktureret arkitektur kan skabe en mere vedligeholdelsesvenlig og skalerbar løsning.
+Implementeringen af Clean Architecture krævede betydeligt mere arbejde i starten, da alle funktioner og data skulle adskilles i klart definerede lag. Denne ekstra indsats gjorde det imidlertid langt nemmere at tilføje nye funktioner og ændringer senere i projektet. Arbejdet lærte mig, hvordan struktureret arkitektur kan skabe en mere vedligeholdelsesvenlig og skalerbar løsning.
 
-Arbejdet med **JWT-tokens** gav praktisk erfaring med sikkerhed i API’er, mens valideringsmekanismer sikrede datakvalitet. Jeg blev også opmærksom på, hvordan tæt samarbejde med Product Owner forbedrer kravforståelsen og sikrer en løsning, der opfylder brugerens behov.
+Arbejdet med JWT-tokens gav praktisk erfaring med sikkerhed i API’er, mens valideringsmekanismer sikrede datakvalitet. Jeg blev også opmærksom på, hvordan tæt samarbejde med Product Owner forbedrer kravforståelsen og sikrer en løsning, der opfylder brugerens behov.
 
 #### **Resultater og effekter**
 - En skalerbar backend-struktur, der let kan udvides til fremtidige behov.
@@ -180,19 +180,19 @@ Arbejdet med **JWT-tokens** gav praktisk erfaring med sikkerhed i API’er, mens
 #### **11. oktober – 5. november: Backend-udvikling og kernefunktionaliteter**
 
 #### **Indledning**
-I denne periode fokuserede jeg på at refaktorisere koden og tilføje nye funktioner, herunder at implementere **CQRS** til håndtering af kommandoer og forespørgsler. Et konkret eksempel på dette er **CreateTeeCommandHandler** og **GetTeeDetailRequestHandler**, som implementerer adskillelse af læse- og skriveoperationer. Dette gjorde backend-systemet mere modulært og skalerbart.
+I denne periode fokuserede jeg på at refaktorisere koden og tilføje nye funktioner, herunder at implementere CQRS til håndtering af kommandoer og forespørgsler. Et konkret eksempel på dette er CreateTeeCommandHandler og GetTeeDetailRequestHandler, som implementerer adskillelse af læse- og skriveoperationer. Dette gjorde backend-systemet mere modulært og skalerbart.
 
 #### **Læringsmål og fokusområder**
-- Implementere **CQRS** for at adskille kommandoer og forespørgsler, hvilket muliggør bedre kontrol og skalerbarhed.
-- Anvende **AutoMapper** til at mappe mellem DTO'er og domæneobjekter.
-- Validere inddata med **FluentValidation** og sikre korrekt dataintegritet.
-- Anvende **MediatR** til at håndtere kommandoer og forespørgsler, hvilket skaber en renere og mere testbar arkitektur.
+- Implementere CQRS for at adskille kommandoer og forespørgsler, hvilket muliggør bedre kontrol og skalerbarhed.
+- Anvende AutoMapper til at mappe mellem DTO'er og domæneobjekter.
+- Validere inddata med FluentValidation og sikre korrekt dataintegritet.
+- Anvende MediatR til at håndtere kommandoer og forespørgsler, hvilket skaber en renere og mere testbar arkitektur.
 
 #### **Tekniske Implementeringer**
-**CQRS** blev implementeret for at adskille **CreateTeeCommand** (skriveoperation) fra **GetTeeDetailRequest** (læseoperation). Dette gør systemet nemmere at udvide og vedligeholde, da kommandoer og forespørgsler er uafhængige af hinanden.
+CQRS blev implementeret for at adskille CreateTeeCommand (skriveoperation) fra GetTeeDetailRequest (læseoperation). Dette gør systemet nemmere at udvide og vedligeholde, da kommandoer og forespørgsler er uafhængige af hinanden.
 
 ##### **CreateTeeCommandHandler**:
-Denne handler håndterer oprettelsen af en ny tee. Den validerer først dataene ved hjælp af `CreateTeeDtoValidator`, mapper DTO'en til et domæneobjekt med **AutoMapper**, og gemmer objektet i databasen via **ITeeRepository**.
+Denne handler håndterer oprettelsen af en ny tee. Den validerer først dataene ved hjælp af `CreateTeeDtoValidator`, mapper DTO'en til et domæneobjekt med AutoMapper, og gemmer objektet i databasen via ITeeRepository.
 ```csharp
 public class CreateTeeCommandHandler : IRequestHandler<CreateTeeCommand, BaseCommandResponse>
 {
@@ -234,7 +234,7 @@ public class CreateTeeCommandHandler : IRequestHandler<CreateTeeCommand, BaseCom
 ```
 
 ##### **GetTeeDetailRequestHandler**:
-Denne handler håndterer forespørgsler om en eksisterende tee. Den henter tee-data fra databasen og mapper den til en **TeeDto**.
+Denne handler håndterer forespørgsler om en eksisterende tee. Den henter tee-data fra databasen og mapper den til en TeeDto.
 ```csharp
 public class GetTeeDetailRequestHandler : IRequestHandler<GetTeeDetailRequest, TeeDto>
 {
@@ -279,19 +279,19 @@ Arbejdet med CQRS lærte mig at adskille ansvar for læse- og skriveoperationer,
 Selvom valideringen fungerede som ønsket, kunne den have været mere dybdegående. På grund af tidsbegrænsninger og skiftende fokus i projektet blev implementeringen af valideringen prioriteret hurtigt. Dette betød, at der var plads til forbedringer, især når det kommer til mere komplekse valideringsregler og håndtering af specifikke fejlscenarier på tværs af de forskellige DTO’er.
 
 #### **Resultater og effekter**
-- En **robust backend**, der effektivt håndterer både kommandoer og forespørgsler.
-- **CQRS**-strukturen gør det nemmere at udvide systemet med nye funktioner uden at forstyrre eksisterende funktionalitet.
-- **AutoMapper** og **FluentValidation** blev implementeret effektivt til at håndtere datamapping og validering, hvilket har øget kodens læsbarhed og robusthed.
+- En robust backend, der effektivt håndterer både kommandoer og forespørgsler.
+- CQRS-strukturen gør det nemmere at udvide systemet med nye funktioner uden at forstyrre eksisterende funktionalitet.
+- AutoMapper og FluentValidation blev implementeret effektivt til at håndtere datamapping og validering, hvilket har øget kodens læsbarhed og robusthed.
 
 ---
 
 ### **6. november – 25. november: Frontend-udvikling**
 
 #### **Indledning**
-I denne fase fokuserede jeg på udviklingen af applikationens frontend ved hjælp af **Blazor WebAssembly**. Målet var at skabe en dynamisk og brugervenlig grænseflade, der sikrer intuitiv navigation og problemfri integration med backend.
+I denne fase fokuserede jeg på udviklingen af applikationens frontend ved hjælp af Blazor WebAssembly. Målet var at skabe en dynamisk og brugervenlig grænseflade, der sikrer intuitiv navigation og problemfri integration med backend.
 
 #### **Læringsmål og fokusområder**
-- Implementere funktionalitet til sikker brugerautentifikation og autorisation med **JWT-tokenhåndtering**.
+- Implementere funktionalitet til sikker brugerautentifikation og autorisation med JWT-tokenhåndtering.
 - Udvikle interaktive og brugervenlige komponenter til navigation og datavisualisering.
 - Sikre effektiv kommunikation mellem frontend og backend via API’er.
 - Forbedre brugeroplevelsen gennem dynamisk filtrering og farvekodning af data.
@@ -309,7 +309,7 @@ I denne fase fokuserede jeg på udviklingen af applikationens frontend ved hjæl
 - **Navigation og integration**: Brugere kan navigere hierarkisk fra golfklubber til baner og videre til huldetaljer. API-integration sikrer sikker og pålidelig dataoverførsel mellem frontend og backend.
 
 #### **Refleksion over læring**
-Udviklingen af frontend har givet mig en solid forståelse af **Blazor WebAssembly** og dens komponentbaserede tilgang. Jeg har forbedret mine evner i at integrere frontend og backend via API’er, samtidig med at jeg lærte at skabe brugervenlige løsninger.
+Udviklingen af frontend har givet mig en solid forståelse af Blazor WebAssembly. Jeg har forbedret mine evner i at integrere frontend og backend via API’er, samtidig med at jeg lærte at skabe brugervenlige løsninger.
 
 #### **Resultater og effekter**
 - En dynamisk og brugervenlig frontend, der understøtter avanceret funktionalitet som filtrering og statistikvisning.
