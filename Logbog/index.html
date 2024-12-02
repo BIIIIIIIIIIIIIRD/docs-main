@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Logbog - Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Logbog";
+        var mkdocs_page_input_path = "Logbog.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Docs
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Projekt</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Logbog</a>
+    <ul class="current">
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Logbog</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h3 id="logbog"><strong>Logbog</strong></h3>
+<hr />
+<h3 id="13-august-10-oktober-projektopstart-og-backend-design"><strong>13. august – 10. oktober: Projektopstart og backend-design</strong></h3>
+<h4 id="indledning"><strong>Indledning</strong></h4>
+<p>I denne fase designede jeg backend-strukturen til projektet for Odense Golfklub. Fokus var at skabe en robust og skalerbar løsning, der understøtter datamodellering og effektiv API-kommunikation. Arbejdet inkluderede kravindsamling, planlægning og implementering af nøglefunktioner i backend med vægt på modularitet og sikkerhed.</p>
+<h4 id="lringsmal-og-fokusomrader"><strong>Læringsmål og fokusområder</strong></h4>
+<ul>
+<li>Implementere principperne bag Clean Architecture for at sikre klar ansvarsfordeling mellem applikationens lag.</li>
+<li>Design og implementering af datamodeller til repræsentation af golfbaner, loops og relaterede data.</li>
+<li>Udvikling af API’er, der understøtter sikker kommunikation mellem backend og frontend via JWT-tokens.</li>
+</ul>
+<h4 id="tekniske-implementeringer"><strong>Tekniske Implementeringer</strong></h4>
+<ul>
+<li><strong>Systemarkitektur:</strong></li>
+<li>Backend-strukturen blev opdelt i klart definerede lag:<ul>
+<li><strong>Domain:</strong> Indeholder kerneentiteter og deres relationer.</li>
+<li><strong>Application:</strong> Håndterer use cases og validering.</li>
+<li><strong>Infrastructure:</strong> Sikrer dataadgang via repositories.</li>
+<li><strong>API:</strong> Eksponerer funktionalitet til frontend.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Struktur af Clean Architecture</strong>:</p>
+<pre><code class="language-plaintext">GolfCoachInsight
+│
+├── Domain
+│   └── Entities
+│
+├── Application
+│   ├── Features
+│   ├── Validators
+│   ├── Contracts
+│   └── Services
+│
+├── Infrastructure
+│   ├── Persistence
+│   │   └── Repositories
+│
+└── API
+    └── Controllers
+</code></pre>
+<ul>
+<li><strong>Validering og sikkerhed:</strong> Backend sikrer dataintegritet med FluentValidation og beskytter endpoints med JWT-tokens.</li>
+</ul>
+<h4 id="fluentvalidation"><strong>FluentValidation</strong></h4>
+<p>For at validere data, har hver DTO en tilsvarende <code>DtoValidator</code>, hvor jeg ved brug af FluentValidation kan definere brugerdefinerede regler. Eksempelvis validerer følgende klasse, om en golfklubs navn er unikt:</p>
+<pre><code class="language-csharp">public class CreateGolfClubDtoValidator : AbstractValidator&lt;CreateGolfClubDto&gt;
+{
+    private readonly IGolfClubRepository _golfClubRepository;
+
+    public CreateGolfClubDtoValidator(IGolfClubRepository golfClubRepository)
+    {
+        _golfClubRepository = golfClubRepository;
+
+        RuleFor(p =&gt; p.Name)
+            .NotEmpty().WithMessage(&quot;{PropertyName} is required.&quot;)
+            .NotNull().WithMessage(&quot;{PropertyName} is required and must not be null.&quot;)
+            .MustAsync(async (name, token) =&gt;
+            {
+                var golfClubExsist = await _golfClubRepository.IsNameAvailable(name);
+                return golfClubExsist; // Return true, if the name does not exist.
+            })
+            .WithMessage(&quot;A golf club with the provided {PropertyName} already exists.&quot;);
+    }
+}
+</code></pre>
+<p>Denne validering sikrer korrekt input og forhindrer duplikationer ved at tjekke, om golfklubbens navn allerede findes i databasen.</p>
+<h4 id="jwt-tokenhandtering"><strong>JWT-tokenhåndtering</strong></h4>
+<p>Backend bruger JWT-tokens til at beskytte API-endpoints og sikre, at kun autoriserede brugere kan få adgang til bestemte ressourcer. For at sikre autentifikationen i API’et, er der konfigureret JWT-validering i <code>Program.cs</code>:</p>
+<pre><code class="language-csharp">services.AddSwaggerGen(c =&gt;
+{
+    c.AddSecurityDefinition(&quot;Bearer&quot;, new OpenApiSecurityScheme
+    {
+        Description = @&quot;JWT Authorization header using the Bearer scheme. 
+                        Enter 'Bearer' [space] and then your token in the text input below.
+                        Example: 'Bearer 12345abcdef'&quot;,
+        Name = &quot;Authorization&quot;,
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = &quot;Bearer&quot;
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = &quot;Bearer&quot;
+                },
+                Scheme = &quot;oauth2&quot;,
+                Name = &quot;Bearer&quot;,
+                In = ParameterLocation.Header,
+            },
+            new List&lt;string&gt;()
+        }
+    });
+});
+</code></pre>
+<p>Her tilføjes en Swagger-integration, der gør det muligt for udviklere at autentificere sig selv via JWT-tokens i API-dokumentationen, hvilket sikrer, at kun autoriserede brugere kan få adgang til beskyttede endpoints.</p>
+<h4 id="beskyttelse-af-api-endpoints-med-authorize"><strong>Beskyttelse af API-endpoints med [Authorize]</strong></h4>
+<p>Jeg har beskyttet controlleren GolfClubController med [Authorize]-attributten, som sørger for, at kun autoriserede brugere kan tilgå dens endpoints. Dette kan også konfigureres, så kun brugere med specifikke roller (fx "Admin") kan udføre visse handlinger:</p>
+<pre><code class="language-csharp">namespace GolfCoachInsight.Api.Controllers
+{
+    [Route(&quot;api/[controller]&quot;)]
+    [ApiController]
+    // Only authorized users can use this controller
+    [Authorize]
+    public class GolfClubController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public GolfClubController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        // GET api/&lt;GolfClubController&gt;/5
+        [HttpGet(&quot;{id}&quot;)]
+        public async Task&lt;ActionResult&lt;GolfClubDto&gt;&gt; Get(int id)
+        {
+            var golfClub = await _mediator.Send(new GetGolfClubDetailRequest { Id = id });
+            return Ok(golfClub);
+        }
+
+        // POST api/&lt;GolfClubController&gt;
+        [HttpPost]
+        [Authorize(Roles = &quot;Admin&quot;)]
+        public async Task&lt;ActionResult&gt; Post([FromBody] CreateGolfClubDto golfClub)
+        {
+            var command = new CreateGolfClubCommand { GolfClubDto = golfClub };
+            var response = await _mediator.Send(command);
+
+            if (response.Success)
+            {
+                return Ok(response);
+            }
+            else
+            {
+                return BadRequest(response);
+            }
+        }
+    }
+}
+</code></pre>
+<ul>
+<li><strong>GET Endpoint</strong>: Tilgængelig for alle autentificerede brugere.</li>
+<li><strong>POST Endpoint</strong>: Kun tilgængelig for brugere med rollen "Admin", som beskytter mod uautoriseret oprettelse af golfklubber.</li>
+</ul>
+<hr />
+<p><strong>Hvorfor det er vigtigt:</strong>
+- JWT beskytter applikationen ved kun at give adgang til autoriserede brugere.
+- Swagger Integration gør det nemt for udviklere at teste API'et med JWT, hvilket giver en praktisk måde at validere tokens på under udvikling.
+- [Authorize] sikrer, at kun godkendte brugere (og specifikt administratorer) kan tilføje nye golfklubber til systemet.</p>
+<hr />
+<ul>
+<li><strong>Kodeintegrationer:</strong> API’et blev designet til at understøtte forespørgsler og kommandoer med integration til databasen via repositories.</li>
+</ul>
+<h4 id="refleksion-over-lring"><strong>Refleksion over læring</strong></h4>
+<p>Implementeringen af Clean Architecture krævede betydeligt mere arbejde i starten, da alle funktioner og data skulle adskilles i klart definerede lag. Denne ekstra indsats gjorde det imidlertid langt nemmere at tilføje nye funktioner og ændringer senere i projektet. Arbejdet lærte mig, hvordan struktureret arkitektur kan skabe en mere vedligeholdelsesvenlig og skalerbar løsning.</p>
+<p>Arbejdet med JWT-tokens gav praktisk erfaring med sikkerhed i API’er, mens valideringsmekanismer sikrede datakvalitet. Jeg blev også opmærksom på, hvordan tæt samarbejde med Product Owner forbedrer kravforståelsen og sikrer en løsning, der opfylder brugerens behov.</p>
+<h4 id="resultater-og-effekter"><strong>Resultater og effekter</strong></h4>
+<ul>
+<li>En skalerbar backend-struktur, der let kan udvides til fremtidige behov.</li>
+<li>Etablering af sikre og robuste API’er, der effektivt understøtter frontend-kommunikation.</li>
+<li>Dokumenterede designvalg, som styrker vedligeholdelse og samarbejde.</li>
+</ul>
+<hr />
+<h4 id="11-oktober-5-november-backend-udvikling-og-kernefunktionaliteter"><strong>11. oktober – 5. november: Backend-udvikling og kernefunktionaliteter</strong></h4>
+<h4 id="indledning_1"><strong>Indledning</strong></h4>
+<p>I denne periode fokuserede jeg på at refaktorisere koden og tilføje nye funktioner, herunder at implementere CQRS til håndtering af kommandoer og forespørgsler. Et konkret eksempel på dette er CreateTeeCommandHandler og GetTeeDetailRequestHandler, som implementerer adskillelse af læse- og skriveoperationer. Dette gjorde backend-systemet mere modulært og skalerbart.</p>
+<h4 id="lringsmal-og-fokusomrader_1"><strong>Læringsmål og fokusområder</strong></h4>
+<ul>
+<li>Implementere CQRS for at adskille kommandoer og forespørgsler, hvilket muliggør bedre kontrol og skalerbarhed.</li>
+<li>Anvende AutoMapper til at mappe mellem DTO'er og domæneobjekter.</li>
+<li>Validere inddata med FluentValidation og sikre korrekt dataintegritet.</li>
+<li>Anvende MediatR til at håndtere kommandoer og forespørgsler, hvilket skaber en renere og mere testbar arkitektur.</li>
+</ul>
+<h4 id="tekniske-implementeringer_1"><strong>Tekniske Implementeringer</strong></h4>
+<p>CQRS blev implementeret for at adskille CreateTeeCommand (skriveoperation) fra GetTeeDetailRequest (læseoperation). Dette gør systemet nemmere at udvide og vedligeholde, da kommandoer og forespørgsler er uafhængige af hinanden.</p>
+<h5 id="createteecommandhandler"><strong>CreateTeeCommandHandler</strong>:</h5>
+<p>Denne handler håndterer oprettelsen af en ny tee. Den validerer først dataene ved hjælp af <code>CreateTeeDtoValidator</code>, mapper DTO'en til et domæneobjekt med AutoMapper, og gemmer objektet i databasen via ITeeRepository.</p>
+<pre><code class="language-csharp">public class CreateTeeCommandHandler : IRequestHandler&lt;CreateTeeCommand, BaseCommandResponse&gt;
+{
+    private readonly ITeeRepository _teeRepository;
+    private readonly IMapper _mapper;
+    private readonly IHoleRepository _holeRepository;
+
+    public CreateTeeCommandHandler(ITeeRepository teeRepository, IMapper mapper, IHoleRepository holeRepository)
+    {
+        _teeRepository = teeRepository;
+        _mapper = mapper;
+        _holeRepository = holeRepository;
+    }
+
+    public async Task&lt;BaseCommandResponse&gt; Handle(CreateTeeCommand request, CancellationToken cancellationToken)
+    {
+        var response = new BaseCommandResponse();
+        var validator = new CreateTeeDtoValidator(_holeRepository);
+        var validationResult = await validator.ValidateAsync(request.TeeDto);
+
+        if (!validationResult.IsValid)
+        {
+            response.Success = false;
+            response.Message = &quot;Creation Failed&quot;;
+            response.Errors = validationResult.Errors.Select(q =&gt; q.ErrorMessage).ToList();
+            return response;
+        }
+
+        var tee = _mapper.Map&lt;Domain.Tee&gt;(request.TeeDto);
+        tee = await _teeRepository.Create(tee);
+
+        response.Success = true;
+        response.Message = &quot;Creation Successful&quot;;
+        response.Id = tee.Id;
+
+        return response;
+    }
+}
+</code></pre>
+<h5 id="getteedetailrequesthandler"><strong>GetTeeDetailRequestHandler</strong>:</h5>
+<p>Denne handler håndterer forespørgsler om en eksisterende tee. Den henter tee-data fra databasen og mapper den til en TeeDto.</p>
+<pre><code class="language-csharp">public class GetTeeDetailRequestHandler : IRequestHandler&lt;GetTeeDetailRequest, TeeDto&gt;
+{
+    private readonly ITeeRepository _teeRepository;
+    private readonly IMapper _mapper;
+
+    public GetTeeDetailRequestHandler(ITeeRepository teeRepository, IMapper mapper)
+    {
+        _teeRepository = teeRepository;
+        _mapper = mapper;
+    }
+
+    public async Task&lt;TeeDto&gt; Handle(GetTeeDetailRequest request, CancellationToken cancellationToken)
+    {
+        var tee = await _teeRepository.Get(request.Id);
+        return _mapper.Map&lt;TeeDto&gt;(tee);
+    }
+}
+</code></pre>
+<h5 id="kommando-og-foresprgsel"><strong>Kommando og Forespørgsel:</strong></h5>
+<ul>
+<li><strong>CreateTeeCommand</strong>: Bruges til at oprette en ny tee.</li>
+<li><strong>GetTeeDetailRequest</strong>: Bruges til at hente detaljer om en specifik tee.</li>
+</ul>
+<pre><code class="language-csharp">// Kommando
+public class CreateTeeCommand : IRequest&lt;BaseCommandResponse&gt;
+{
+    public CreateTeeDto TeeDto { get; set; }
+}
+
+// Forespørgsel
+public class GetTeeDetailRequest : IRequest&lt;TeeDto&gt;
+{
+    public int Id { get; set; }
+}
+</code></pre>
+<h4 id="refleksion-over-lring_1"><strong>Refleksion over læring</strong></h4>
+<p>Arbejdet med CQRS lærte mig at adskille ansvar for læse- og skriveoperationer, hvilket gjorde systemet mere fleksibelt og lettere at udvide. Jeg blev mere fortrolig med MediatR, som effektivt håndterer kommandoer og forespørgsler. En af de udfordringer, jeg stødte på, var at sikre korrekt datavalidering og håndtering af fejlagtige input. Jeg brugte FluentValidation til at implementere brugervenlige fejlmeddelelser og sikre dataintegritet på tværs af alle DtoValidators.</p>
+<p>Selvom valideringen fungerede som ønsket, kunne den have været mere dybdegående. På grund af tidsbegrænsninger og skiftende fokus i projektet blev implementeringen af valideringen prioriteret hurtigt. Dette betød, at der var plads til forbedringer, især når det kommer til mere komplekse valideringsregler og håndtering af specifikke fejlscenarier på tværs af de forskellige DTO’er.</p>
+<h4 id="resultater-og-effekter_1"><strong>Resultater og effekter</strong></h4>
+<ul>
+<li>En robust backend, der effektivt håndterer både kommandoer og forespørgsler.</li>
+<li>CQRS-strukturen gør det nemmere at udvide systemet med nye funktioner uden at forstyrre eksisterende funktionalitet.</li>
+<li>AutoMapper og FluentValidation blev implementeret effektivt til at håndtere datamapping og validering, hvilket har øget kodens læsbarhed og robusthed.</li>
+</ul>
+<hr />
+<h3 id="6-november-25-november-frontend-udvikling"><strong>6. november – 25. november: Frontend-udvikling</strong></h3>
+<h4 id="indledning_2"><strong>Indledning</strong></h4>
+<p>I denne fase fokuserede jeg på udviklingen af applikationens frontend ved hjælp af Blazor WebAssembly. Målet var at skabe en dynamisk og brugervenlig grænseflade, der sikrer intuitiv navigation og problemfri integration med backend.</p>
+<h4 id="lringsmal-og-fokusomrader_2"><strong>Læringsmål og fokusområder</strong></h4>
+<ul>
+<li>Implementere funktionalitet til sikker brugerautentifikation og autorisation med JWT-tokenhåndtering.</li>
+<li>Udvikle interaktive og brugervenlige komponenter til navigation og datavisualisering.</li>
+<li>Sikre effektiv kommunikation mellem frontend og backend via API’er.</li>
+<li>Forbedre brugeroplevelsen gennem dynamisk filtrering og farvekodning af data.</li>
+</ul>
+<h4 id="tekniske-implementeringer_2"><strong>Tekniske implementeringer</strong></h4>
+<ul>
+<li>
+<p><strong>Autentifikation og autorisation</strong>: Udviklede login- og registreringssider med håndtering af JWT-tokens, som sikrer sikker adgang til applikationen.
+<img alt="Valg af golfbane" src="../img/login.gif" /></p>
+</li>
+<li>
+<p><strong>Interaktive datavisninger</strong>: Implementerede sider som golfkluboversigt, hvor brugerne kan navigere mellem klubber, baner og huldetaljer. Data hentes dynamisk via API-kald.
+<img alt="Valg af golfbane" src="../img/golf.gif" /></p>
+</li>
+<li>
+<p><strong>Statistikvisning</strong>: Udviklede tabeller, der visualiserer spillerdata med farvekodning baseret på præstationer. Dette giver trænere en hurtig indsigt i spilleres resultater.
+ <img alt="Stats" src="../img/stats.gif" /></p>
+</li>
+<li>
+<p><strong>Navigation og integration</strong>: Brugere kan navigere hierarkisk fra golfklubber til baner og videre til huldetaljer. API-integration sikrer sikker og pålidelig dataoverførsel mellem frontend og backend.</p>
+</li>
+</ul>
+<h4 id="refleksion-over-lring_2"><strong>Refleksion over læring</strong></h4>
+<p>Udviklingen af frontend har givet mig en solid forståelse af Blazor WebAssembly. Jeg har forbedret mine evner i at integrere frontend og backend via API’er, samtidig med at jeg lærte at skabe brugervenlige løsninger.</p>
+<h4 id="resultater-og-effekter_2"><strong>Resultater og effekter</strong></h4>
+<ul>
+<li>En dynamisk og brugervenlig frontend, der understøtter avanceret funktionalitet som filtrering og statistikvisning.</li>
+<li>Problemfri integration mellem frontend og backend via API-kald.</li>
+<li>Effektiv datavisualisering og navigation, der forbedrer brugeroplevelsen.</li>
+</ul>
+<hr />
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Projekt"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
